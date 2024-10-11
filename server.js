@@ -7,8 +7,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/dietetic-db';
 
-// Definir la base URL de la API
-const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/'; // Cambia esto
 // Conectar a MongoDB
 mongoose.set('strictQuery', true); // o true, según lo que prefieras
 
@@ -38,7 +36,7 @@ const supplierSchema = new mongoose.Schema({
 const Supplier = mongoose.model('Supplier', supplierSchema);
 
 // Endpoint para agregar un producto
-app.post(`${apiBaseUrl}/products`, async (req, res) => {
+app.post('/api/products', async (req, res) => {
     const newProduct = new Product(req.body);
     try {
         const savedProduct = await newProduct.save();
@@ -49,7 +47,7 @@ app.post(`${apiBaseUrl}/products`, async (req, res) => {
 });
 
 // Endpoint para obtener productos
-app.get(`${apiBaseUrl}/products`, async (req, res) => {
+app.get('/api/products', async (req, res) => {
     try {
         const products = await Product.find().populate('supplier');
         res.status(200).json(products);
@@ -59,7 +57,7 @@ app.get(`${apiBaseUrl}/products`, async (req, res) => {
 });
 
 // Endpoint para eliminar un producto
-app.delete(`${apiBaseUrl}/products/:id`, async (req, res) => {
+app.delete('/api/products/:id', async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         if (!deletedProduct) {
@@ -72,7 +70,7 @@ app.delete(`${apiBaseUrl}/products/:id`, async (req, res) => {
 });
 
 // Endpoint para editar un producto
-app.patch(`${apiBaseUrl}/products/:id`, async (req, res) => {
+app.patch('/api/products/:id', async (req, res) => {
     try {
         const { name, price, supplier } = req.body; 
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { name, price, supplier }, { new: true });
@@ -88,20 +86,19 @@ app.patch(`${apiBaseUrl}/products/:id`, async (req, res) => {
     }
 });
 
-app.post(`${apiBaseUrl}/suppliers`, async (req, res) => {
+// Endpoint para agregar un proveedor
+app.post('/api/suppliers', async (req, res) => {
     const newSupplier = new Supplier(req.body);
     try {
         const savedSupplier = await newSupplier.save();
         res.status(201).json(savedSupplier);
     } catch (error) {
-        res.status(400).json({ message: error.message }); // Esto ya está bien, solo asegúrate de que se ejecuta
+        res.status(400).json({ message: error.message });
     }
 });
 
-
-
 // Endpoint para obtener todos los proveedores
-app.get(`${apiBaseUrl}/suppliers`, async (req, res) => {
+app.get('/api/suppliers', async (req, res) => {
     try {
         const suppliers = await Supplier.find();
         res.status(200).json(suppliers);
@@ -111,7 +108,7 @@ app.get(`${apiBaseUrl}/suppliers`, async (req, res) => {
 });
 
 // Endpoint para eliminar un proveedor
-app.delete(`${apiBaseUrl}/suppliers/:id`, async (req, res) => {
+app.delete('/api/suppliers/:id', async (req, res) => {
     try {
         const supplierToDelete = await Supplier.findById(req.params.id);
         if (!supplierToDelete) {
@@ -122,12 +119,26 @@ app.delete(`${apiBaseUrl}/suppliers/:id`, async (req, res) => {
         await Product.updateMany({ supplier: req.params.id }, { supplier: null });
 
         // Ahora eliminar el proveedor
-        const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id);
+        await Supplier.findByIdAndDelete(req.params.id);
         
         res.status(200).json({ message: 'Proveedor eliminado' });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
+    }
+});
+
+// Endpoint para editar un proveedor
+app.patch('/api/suppliers/:id', async (req, res) => {
+    try {
+        const updatedSupplier = await Supplier.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedSupplier) {
+            return res.status(404).json({ message: 'Proveedor no encontrado' });
+        }
+        res.status(200).json(updatedSupplier);
+    } catch (error) {
+        console.error('Error al editar proveedor:', error);
+        res.status(500).json({ message: 'Error interno del servidor' });
     }
 });
 
