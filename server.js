@@ -7,14 +7,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/dietetic-db';
 
+// Definir la base URL de la API
+const apiBaseUrl = '/api';
+
 // Conectar a MongoDB
 mongoose.set('strictQuery', false); // o true, según lo que prefieras
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
-
-
 
 // Middleware
 app.use(cors());
@@ -38,7 +39,7 @@ const supplierSchema = new mongoose.Schema({
 const Supplier = mongoose.model('Supplier', supplierSchema);
 
 // Endpoint para agregar un producto
-app.post('/api/products', async (req, res) => {
+app.post(`${apiBaseUrl}/products`, async (req, res) => {
     const newProduct = new Product(req.body);
     try {
         const savedProduct = await newProduct.save();
@@ -49,7 +50,7 @@ app.post('/api/products', async (req, res) => {
 });
 
 // Endpoint para obtener productos
-app.get('/api/products', async (req, res) => {
+app.get(`${apiBaseUrl}/products`, async (req, res) => {
     try {
         const products = await Product.find().populate('supplier');
         res.status(200).json(products);
@@ -59,7 +60,7 @@ app.get('/api/products', async (req, res) => {
 });
 
 // Endpoint para eliminar un producto
-app.delete('/api/products/:id', async (req, res) => {
+app.delete(`${apiBaseUrl}/products/:id`, async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
         if (!deletedProduct) {
@@ -72,7 +73,7 @@ app.delete('/api/products/:id', async (req, res) => {
 });
 
 // Endpoint para editar un producto
-app.patch('/api/products/:id', async (req, res) => {
+app.patch(`${apiBaseUrl}/products/:id`, async (req, res) => {
     try {
         const { name, price, supplier } = req.body; 
         const updatedProduct = await Product.findByIdAndUpdate(req.params.id, { name, price, supplier }, { new: true });
@@ -89,7 +90,7 @@ app.patch('/api/products/:id', async (req, res) => {
 });
 
 // Endpoint para agregar un proveedor
-app.post('/api/suppliers', async (req, res) => {
+app.post(`${apiBaseUrl}/suppliers`, async (req, res) => {
     const newSupplier = new Supplier(req.body);
     try {
         const savedSupplier = await newSupplier.save();
@@ -100,7 +101,7 @@ app.post('/api/suppliers', async (req, res) => {
 });
 
 // Endpoint para obtener todos los proveedores
-app.get('/api/suppliers', async (req, res) => {
+app.get(`${apiBaseUrl}/suppliers`, async (req, res) => {
     try {
         const suppliers = await Supplier.find();
         res.status(200).json(suppliers);
@@ -110,7 +111,7 @@ app.get('/api/suppliers', async (req, res) => {
 });
 
 // Endpoint para eliminar un proveedor
-app.delete('/api/suppliers/:id', async (req, res) => {
+app.delete(`${apiBaseUrl}/suppliers/:id`, async (req, res) => {
     try {
         const supplierToDelete = await Supplier.findById(req.params.id);
         if (!supplierToDelete) {
@@ -145,3 +146,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
+
