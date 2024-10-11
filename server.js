@@ -12,7 +12,7 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://@cluster0.8wnwb.mo
 // Conectar a MongoDB
 mongoose.set('strictQuery', true);
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 20000 })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 30000 }) // 30 segundos
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
 
