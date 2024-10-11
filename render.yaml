@@ -1,0 +1,9 @@
+echo "version: 1
+services:
+  - type: web
+    name: mi-dietetica-app
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    repo: https://github.com/CristianCodeDev/dietetica" > render.yaml
