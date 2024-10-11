@@ -25,30 +25,22 @@ async function loadProducts() {
     try {
         const response = await fetch(`${apiBaseUrl}/products`);
         if (!response.ok) throw new Error('Error al cargar productos');
-
         allProducts = await response.json();
-        displayProducts(allProducts); // Mostrar los productos en la interfaz
+        displayProducts(allProducts); // Muestra los productos cargados
     } catch (error) {
-        console.error('Error al cargar productos:', error);
+        console.error(error);
     }
 }
-
-
 
 async function loadSuppliers() {
     try {
         const response = await fetch(`${apiBaseUrl}/suppliers`);
         if (!response.ok) throw new Error('Error al cargar proveedores');
-
         allSuppliers = await response.json();
-        displaySuppliers(allSuppliers);
-        populateSupplierFilter();
-        populateProductSupplierSelect();
-
-        // Aplicar el filtro después de cargar proveedores
-        filterBySupplier();
+        populateSupplierFilter(); // Actualiza el filtro de proveedores
+        populateProductSupplierSelect(); // Llena el select de proveedores
     } catch (error) {
-        console.error('Error al cargar proveedores:', error);
+        console.error(error);
     }
 }
 
