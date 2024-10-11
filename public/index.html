@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dietética</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>La Vittoria</h1>
+        
+        <!-- Filtro por proveedor -->
+        <select id="supplier-filter" onchange="filterBySupplier()">
+            <option value="">Todos los Proveedores</option>
+        </select>
+
+        <!-- Buscador de productos -->
+        <input type="text" id="product-search" placeholder="Buscar producto por nombre" oninput="searchProducts()" autocomplete="off" />
+
+        <!-- Agregar Proveedor -->
+        <h2>Agregar Proveedor</h2>
+        <form id="add-supplier-form" autocomplete="off">
+            <input type="text" id="supplier-name" placeholder="Nombre del proveedor" required autocomplete="off" />
+            <button type="submit">Agregar Proveedor</button>
+            <button id="toggle-supplier-list">Mostrar Proveedores</button>
+            <div id="supplier-list" style="display: none;"></div>
+        </form>
+
+        <h2>Agregar Producto</h2>
+        <!-- Formulario para agregar un producto -->
+        <form id="add-product-form" autocomplete="off">
+            <input type="text" id="product-name" placeholder="Nombre del producto" required autocomplete="off" />
+            <input type="number" id="product-price" placeholder="Precio" required autocomplete="off" />
+            <select id="product-supplier" required>
+                <option value="">Selecciona un proveedor</option>
+            </select>
+            <button type="submit">Agregar Producto</button>
+        </form>
+
+        <!-- Lista de productos -->
+        <div id="product-list"></div>
+    </div>
+    <!-- Modal para confirmar eliminación de producto -->
+<div id="delete-product-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Eliminar Producto</h2>
+        <p>¿Estás seguro de que deseas eliminar este producto?</p>
+        <button id="confirm-delete-product">Sí, eliminar</button>
+        <button id="cancel-delete-product">Cancelar</button>
+    </div>
+</div>
+
+<!-- Modal para confirmar eliminación de proveedor -->
+<div id="delete-supplier-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Eliminar Proveedor</h2>
+        <p>¿Estás seguro de que deseas eliminar este proveedor?</p>
+        <button id="confirm-delete-supplier">Sí, eliminar</button>
+        <button id="cancel-delete-supplier">Cancelar</button>
+    </div>
+</div>
+
+<!-- Modal para confirmar aumento de precio -->
+<div id="increase-price-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Aumentar Precio</h2>
+        <p id="increase-price-message"></p>
+        <button id="confirm-increase-price">Sí, aumentar</button>
+        <button id="cancel-increase-price">Cancelar</button>
+    </div>
+</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
