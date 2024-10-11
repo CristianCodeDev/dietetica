@@ -328,7 +328,8 @@ async function increasePrice(productId) {
 
 
 function displaySuppliers(suppliers) {
-    supplierList.innerHTML = '';
+    supplierList.innerHTML = ''; // Limpiar la lista
+
     suppliers.forEach(supplier => {
         const supplierDiv = document.createElement('div');
         supplierDiv.classList.add('supplier');
@@ -339,6 +340,7 @@ function displaySuppliers(suppliers) {
         supplierList.appendChild(supplierDiv);
     });
 }
+
 
 async function deleteSupplier(supplierId) {
     document.getElementById('delete-supplier-modal').style.display = 'flex';
