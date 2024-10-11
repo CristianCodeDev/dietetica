@@ -37,6 +37,7 @@ async function loadSuppliers() {
         const response = await fetch(`${apiBaseUrl}/suppliers`);
         if (!response.ok) throw new Error('Error al cargar proveedores');
         allSuppliers = await response.json();
+        displaySuppliers(allSuppliers); // Mostrar proveedores
         populateSupplierFilter(); // Actualiza el filtro de proveedores
         populateProductSupplierSelect(); // Llena el select de proveedores
     } catch (error) {
@@ -525,7 +526,15 @@ async function editProduct(productId) {
     });
 }
 
+function showDeleteSupplierModal() {
+    document.getElementById('delete-supplier-modal').style.display = 'flex';
+}
 
+function hideDeleteSupplierModal() {
+    document.getElementById('delete-supplier-modal').style.display = 'none';
+}
+
+// Llama a showDeleteSupplierModal() antes de eliminar un proveedor
 
 
 
