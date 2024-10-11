@@ -413,8 +413,6 @@ async function deleteSupplier(supplierId) {
 
 
 
-
-
 function toggleSupplierList() {
     supplierList.style.display = supplierList.style.display === 'none' ? 'block' : 'none';
 }
