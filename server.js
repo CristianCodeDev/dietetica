@@ -7,12 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Asegúrate de que MONGODB_URI está definido en tu archivo .env
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://@cluster0.8wnwb.mongodb.net/dietetic-db"
 
 // Conectar a MongoDB
 mongoose.set('strictQuery', true);
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, connectTimeoutMS: 20000 })
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
 
