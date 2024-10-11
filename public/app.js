@@ -342,6 +342,16 @@ function displaySuppliers(suppliers) {
     });
 }
 
+// Llama a showDeleteSupplierModal() antes de eliminar un proveedor
+
+function showDeleteSupplierModal() {
+    document.getElementById('delete-supplier-modal').style.display = 'flex';
+}
+
+function hideDeleteSupplierModal() {
+    document.getElementById('delete-supplier-modal').style.display = 'none';
+}
+
 
 async function deleteSupplier(supplierId) {
     document.getElementById('delete-supplier-modal').style.display = 'flex';
@@ -526,15 +536,7 @@ async function editProduct(productId) {
     });
 }
 
-function showDeleteSupplierModal() {
-    document.getElementById('delete-supplier-modal').style.display = 'flex';
-}
 
-function hideDeleteSupplierModal() {
-    document.getElementById('delete-supplier-modal').style.display = 'none';
-}
-
-// Llama a showDeleteSupplierModal() antes de eliminar un proveedor
 
 
 
