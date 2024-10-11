@@ -8,8 +8,10 @@ const supplierSelect = document.getElementById('product-supplier');
 const supplierList = document.getElementById('supplier-list');
 const toggleSupplierButton = document.getElementById('toggle-supplier-list');
 
+let currentSupplierFilter = ""; // Variable para mantener el filtro actual
 let allProducts = [];
 let allSuppliers = [];
+
 
 form.addEventListener('submit', addProduct);
 supplierForm.addEventListener('submit', addSupplier);
@@ -26,11 +28,13 @@ async function loadProducts() {
         const response = await fetch(`${apiBaseUrl}/products`);
         if (!response.ok) throw new Error('Error al cargar productos');
         allProducts = await response.json();
-        displayProducts(allProducts); // Muestra los productos cargados
+        displayProducts(allProducts);
+        filterBySupplier(); // Aplica el filtro después de cargar
     } catch (error) {
         console.error(error);
     }
 }
+
 
 async function loadSuppliers() {
     try {
@@ -175,6 +179,28 @@ async function displayProducts(products) {
     });
 }
 
+editForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const updatedName = document.getElementById(`edit-name-${productId}`).value;
+    const updatedPrice = parseFloat(document.getElementById(`edit-price-${productId}`).value);
+    const updatedSupplierId = document.getElementById(`edit-supplier-${productId}`).value || null;
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/products/${productId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: updatedName, price: updatedPrice, supplier: updatedSupplierId })
+        });
+
+        if (!response.ok) throw new Error('Error al editar el producto');
+
+        // Aplica el filtro después de la edición
+        filterBySupplier();
+    } catch (error) {
+        console.error('Error al editar el producto:', error);
+    }
+});
 
 
 async function toggleEdit(productId, button) {
@@ -246,11 +272,14 @@ async function updateProduct(productId, data) {
         });
 
         if (!response.ok) throw new Error('Error al editar el producto');
-        loadProducts(); // Recargar productos después de editar
+
+        // Aplica el filtro de nuevo
+        filterBySupplier();
     } catch (error) {
         console.error('Error al editar el producto:', error);
     }
 }
+
 
 function toggleEditCancel(button) {
     const productDiv = button.closest('.product');
