@@ -101,8 +101,6 @@ async function addSupplier(event) {
     event.preventDefault();
     const name = document.getElementById('supplier-name').value;
 
-    console.log('Nombre del proveedor:', name); // Verificar el nombre
-
     if (!name) {
         alert("Por favor, ingresa un nombre para el proveedor.");
         return;
@@ -115,20 +113,18 @@ async function addSupplier(event) {
             body: JSON.stringify({ name })
         });
 
-        console.log('Respuesta del servidor:', response); // Ver la respuesta
-
         if (!response.ok) {
-            const errorResponse = await response.json();
-            throw new Error(`Error ${response.status}: ${errorResponse.message}`);
+            const errorResponse = await response.text(); // Leer la respuesta como texto
+            throw new Error(`Error al agregar proveedor: ${errorResponse}`);
         }
 
         supplierForm.reset();
         loadSuppliers(); // Recargar proveedores al agregar uno nuevo
     } catch (error) {
         console.error('Error al agregar proveedor:', error);
-        alert('No se pudo agregar el proveedor: ' + error.message);
     }
 }
+
 
 
 async function displayProducts(products) {

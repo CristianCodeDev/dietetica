@@ -89,20 +89,12 @@ app.patch(`${apiBaseUrl}/products/:id`, async (req, res) => {
 });
 
 app.post(`${apiBaseUrl}/suppliers`, async (req, res) => {
-    console.log('Cuerpo de la solicitud:', req.body); // Para depurar
-    const { name } = req.body;
-
-    if (!name) {
-        return res.status(400).json({ message: 'El nombre del proveedor es requerido.' });
-    }
-
     const newSupplier = new Supplier(req.body);
     try {
         const savedSupplier = await newSupplier.save();
         res.status(201).json(savedSupplier);
     } catch (error) {
-        console.error('Error al guardar proveedor:', error);
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message }); // Esto ya está bien, solo asegúrate de que se ejecuta
     }
 });
 
