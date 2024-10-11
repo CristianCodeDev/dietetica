@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/dietetic-db';
 
 // Definir la base URL de la API
-const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/api'; // Cambia esto
+const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/'; // Cambia esto
 // Conectar a MongoDB
 mongoose.set('strictQuery', true); // o true, según lo que prefieras
 

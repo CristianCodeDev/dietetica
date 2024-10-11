@@ -1,4 +1,4 @@
-const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/api';
+const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/';
 const form = document.getElementById('add-product-form');
 const supplierForm = document.getElementById('add-supplier-form');
 const productList = document.getElementById('product-list');
