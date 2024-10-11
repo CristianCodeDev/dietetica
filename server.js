@@ -5,10 +5,12 @@ const path = require('path');
 require('dotenv').config(); // Cargar variables de entorno
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/dietetic-db';
+
+// Asegúrate de que MONGODB_URI está definido en tu archivo .env
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Conectar a MongoDB
-mongoose.set('strictQuery', true); // o true, según lo que prefieras
+mongoose.set('strictQuery', true);
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conectado a MongoDB'))
