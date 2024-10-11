@@ -5,11 +5,16 @@ const path = require('path');
 require('dotenv').config(); // Cargar variables de entorno
 const app = express();
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dietetic-db';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://crschinocca:95.R6zC6sVx9Z@cluster0.8wnwb.mongodb.net/dietetic-db';
+
+// Conectar a MongoDB
+mongoose.set('strictQuery', false); // o true, según lo que prefieras
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Conectado a MongoDB'))
     .catch(err => console.error('Error de conexión a MongoDB:', err));
+
+
 
 // Middleware
 app.use(cors());
