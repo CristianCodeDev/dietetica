@@ -23,7 +23,7 @@ loadSuppliers();
 
 async function loadProducts() {
     try {
-        const response = await fetch('${apiBaseUrl}/products');
+        const response = await fetch(`${apiBaseUrl}/products`);
         if (!response.ok) throw new Error('Error al cargar productos');
 
         allProducts = await response.json();
@@ -37,7 +37,7 @@ async function loadProducts() {
 
 async function loadSuppliers() {
     try {
-        const response = await fetch('${apiBaseUrl}/suppliers');
+        const response = await fetch(`${apiBaseUrl}/suppliers`);
         if (!response.ok) throw new Error('Error al cargar proveedores');
 
         allSuppliers = await response.json();
@@ -88,7 +88,7 @@ async function addProduct(event) {
     }
 
     try {
-        const response = await fetch('${apiBaseUrl}/products', {
+        const response = await fetch(`${apiBaseUrl}/products`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, price, supplier: supplierId })
@@ -115,7 +115,7 @@ async function addSupplier(event) {
     }
 
     try {
-        const response = await fetch('${apiBaseUrl}/suppliers', {
+        const response = await fetch(`${apiBaseUrl}/suppliers`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name })
@@ -356,7 +356,7 @@ async function deleteSupplier(supplierId) {
             if (!supplierToDelete) throw new Error('Proveedor no encontrado');
 
             // Obtener todos los productos
-            const response = await fetch('${apiBaseUrl}/products');
+            const response = await fetch(`${apiBaseUrl}/products`);
             if (!response.ok) throw new Error('Error al obtener productos');
 
             const products = await response.json();
@@ -408,11 +408,6 @@ async function deleteSupplier(supplierId) {
 }
 
 
-
-
-
-
-
 function toggleSupplierList() {
     supplierList.style.display = supplierList.style.display === 'none' ? 'block' : 'none';
 }
@@ -454,7 +449,7 @@ async function deleteProduct(productId) {
 
     confirmButton.onclick = async () => {
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/products/${productId}`, {
                 method: 'DELETE'
             });
 
@@ -517,7 +512,7 @@ async function editProduct(productId) {
         const updatedSupplierId = document.getElementById(`edit-supplier-${productId}`).value || null; // Asignar null si no hay proveedor
 
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/products/${productId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name: updatedName, price: updatedPrice, supplier: updatedSupplierId })
