@@ -1,3 +1,4 @@
+const apiBaseUrl = 'https://mi-dietetica-app.onrender.com/api';
 const form = document.getElementById('add-product-form');
 const supplierForm = document.getElementById('add-supplier-form');
 const productList = document.getElementById('product-list');
@@ -22,7 +23,7 @@ loadSuppliers();
 
 async function loadProducts() {
     try {
-        const response = await fetch('/api/products');
+        const response = await fetch('${apiBaseUrl}/products');
         if (!response.ok) throw new Error('Error al cargar productos');
 
         allProducts = await response.json();
@@ -36,7 +37,7 @@ async function loadProducts() {
 
 async function loadSuppliers() {
     try {
-        const response = await fetch('/api/suppliers');
+        const response = await fetch('${apiBaseUrl}/suppliers');
         if (!response.ok) throw new Error('Error al cargar proveedores');
 
         allSuppliers = await response.json();
@@ -87,7 +88,7 @@ async function addProduct(event) {
     }
 
     try {
-        const response = await fetch('/api/products', {
+        const response = await fetch('${apiBaseUrl}/products', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, price, supplier: supplierId })
@@ -114,7 +115,7 @@ async function addSupplier(event) {
     }
 
     try {
-        const response = await fetch('/api/suppliers', {
+        const response = await fetch('${apiBaseUrl}/suppliers', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name })
@@ -240,7 +241,7 @@ async function toggleEdit(productId, button) {
 
 async function updateProduct(productId, data) {
     try {
-        const response = await fetch(`/api/products/${productId}`, {
+        const response = await fetch(`${apiBaseUrl}/products/${productId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -307,7 +308,7 @@ async function increasePrice(productId) {
         const newPrice = (product.price * 1.6).toFixed(2);
 
         try {
-            const response = await fetch(`/api/products/${productId}`, {
+            const response = await fetch(`${apiBaseUrl}/products/${productId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ price: newPrice })
@@ -355,7 +356,7 @@ async function deleteSupplier(supplierId) {
             if (!supplierToDelete) throw new Error('Proveedor no encontrado');
 
             // Obtener todos los productos
-            const response = await fetch('/api/products');
+            const response = await fetch('${apiBaseUrl}/products');
             if (!response.ok) throw new Error('Error al obtener productos');
 
             const products = await response.json();
@@ -366,7 +367,7 @@ async function deleteSupplier(supplierId) {
             // Actualizar solo los productos que tienen el proveedor que se va a eliminar
             if (productsToUpdate.length > 0) {
                 const updatePromises = productsToUpdate.map(product => {
-                    return fetch(`/api/products/${product._id}`, {
+                    return fetch(`${apiBaseUrl}/products/${product._id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ supplier: null }) // Eliminar proveedor solo de estos productos
@@ -377,7 +378,7 @@ async function deleteSupplier(supplierId) {
             }
 
             // Luego eliminar el proveedor
-            const deleteResponse = await fetch(`/api/suppliers/${supplierId}`, {
+            const deleteResponse = await fetch(`${apiBaseUrl}/suppliers/${supplierId}`, {
                 method: 'DELETE'
             });
             if (!deleteResponse.ok) throw new Error('Error al eliminar proveedor');
